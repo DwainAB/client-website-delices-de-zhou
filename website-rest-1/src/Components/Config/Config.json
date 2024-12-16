@@ -1,0 +1,50 @@
+{
+    "ref_restaurant": "Rosny Wok Grill",
+    "restaurantName": "Wok Grill",
+    "openingHours": [
+      { "day": 1, "start": 12, "end": 14.5, "_comment": "Lundi matin" },
+      { "day": 1, "start": 19, "end": 22.5, "_comment": "Lundi soir" },
+  
+      { "day": 2, "start": 12, "end": 14.5, "_comment": "Mardi matin" },
+      { "day": 2, "start": 19, "end": 22.5, "_comment": "Mardi soir" },
+  
+      { "day": 3, "start": 12, "end": 14.5, "_comment": "Mercredi matin" },
+      { "day": 3, "start": 19, "end": 22.5, "_comment": "Mercredi soir" },
+  
+      { "day": 4, "start": 12, "end": 14.5, "_comment": "Jeudi matin" },
+      { "day": 4, "start": 19, "end": 22.5, "_comment": "Jeudi soir" },
+  
+      { "day": 5, "start": 12, "end": 14.5, "_comment": "Vendredi matin" },
+      { "day": 5, "start": 19, "end": 23, "_comment": "Vendredi soir" },
+  
+      { "day": 6, "start": 12, "end": 14.5, "_comment": "Samedi matin" },
+      { "day": 6, "start": 19, "end": 23, "_comment": "Samedi soir" },
+  
+      { "day": 0, "start": 12, "end": 14.5, "_comment": "Dimanche matin" },
+      { "day": 0, "start": 19, "end": 22.5, "_comment": "Dimanche soir" }
+    ],
+    "city": "Rosny-sous-bois",
+    "description": "Venez déguster nos plats dans un cadre chaleureux et convivial",
+
+    "titleCharacteristic1": "Produits frais",
+    "DescriptionCharacteristic1": "Nos poissons sont pêchés le\n jour même",
+
+    "titleCharacteristic2": "Service rapide",
+    "DescriptionCharacteristic2": "Nos équipes répondront à\n vos attentes dans les plus\n brefs délais",
+
+    "titleCharacteristic3": "Buffet à volonté",
+    "DescriptionCharacteristic3": "Une multitude de choix rien\n que pour vous",
+
+    "mondayTime": "12:00 - 14:30 / 19:00 - 22:30",
+    "tuesdayTime": "12:00 - 14:30 / 19:00 - 22:30",
+    "wednesdayTime": "12:00 - 14:30 / 19:00 - 22:30",
+    "thursdayTime": "12:00 - 14:30 / 19:00 - 22:30",
+    "fridayTime": "12:00 - 14:30 / 19:00 - 23:00",
+    "saturdayTime": "12:00 - 14:30 / 19:00 - 23:00",
+    "sundayTime": "12:00 - 14:30 / 19:00 - 22:30",
+
+    "address": "1 Rue Gustave Eiffel\n 93110, Rosny-sous-bois",
+    "phone": "01 45 28 43 08",
+    "email": "rosnywokgrill@gmail.com"
+  }
+  

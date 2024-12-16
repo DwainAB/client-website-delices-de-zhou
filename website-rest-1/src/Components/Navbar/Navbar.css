@@ -1,0 +1,179 @@
+body {
+    overflow-x: hidden;
+}
+
+li {
+    list-style: none;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: var(--secondary-color);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 2px solid #fff;
+}
+
+.action span {
+    font-size: clamp(1.7rem, 1.70vw, 2rem);
+    color: var(--third-color);
+}
+
+.btn-menu {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 110px;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    object-fit: cover;
+    width: clamp(11rem, 12.5vw, 15rem);
+    height: 8rem;
+}
+
+.link {
+    font-size: clamp(1.1rem, 1.30vw, 1.25rem);
+    font-weight: 600;
+    height: 30px;
+}
+
+.link:hover {
+    border-bottom: 2px solid var(--third-color);
+}
+
+.link a {
+    text-decoration: none;
+    color: var(--third-color);
+}
+
+.container-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action {
+    width: 2.438rem;
+    height: 2.125rem;
+    position: relative; /* Important pour que .notification-dot soit positionné correctement */
+}
+
+.notification-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--third-color);
+    border-radius: 50%;
+}
+
+.action img {
+    width: clamp(2.3rem, 2.2vw, 2.6rem);
+}
+
+.list-links {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    box-sizing: initial;
+}
+
+.list-actions {
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+    box-sizing: initial;
+}
+
+li {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1025px) {
+    .container-nav-mobil {
+        display: none;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .navbar-mobile {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: var(--secondary-color);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        left: 0;
+        border-top: 2px solid #fff;
+    }
+
+    .navbar-mobile-list {
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        margin: 0;
+    }
+
+    .notification-dot {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .action {
+        position: relative;
+    }
+
+    .navbar-mobile-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--third-color);
+    }
+
+    .navbar-mobile-item p {
+        text-decoration: none;
+        color: var(--third-color);
+        margin-top: 5px;
+        margin-bottom: 0;
+        font-size: 12px;
+    }
+
+    .material-icons {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 825px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .btn-menu {
+        right: 50px;
+    }
+
+    .logo {
+        left: 0px;
+    }
+}
