@@ -100,7 +100,7 @@ function Navbar() {
                         </ul>
 
                         <ul className="list-actions">
-                            <li className="action">
+                            <li className={`action ${scrolled ? 'scrolled' : ''}`}>
                                 <Link to="/panier">
                                     <span className="material-symbols-outlined">
                                         shopping_basket

@@ -1,0 +1,49 @@
+{
+    "refRestaurant": "884259a2-56d9-4f41-9006-0794bca24c3e",
+    "restaurantName": "Délices de Zhou",
+    "openingHours": [
+  
+      { "day": 2, "start": 11, "end": 13.5, "_comment": "Mardi midi" },
+      { "day": 2, "start": 18, "end": 20.5, "_comment": "Mardi soir" },
+  
+      { "day": 3, "start": 11, "end": 13.5, "_comment": "Mercredi midi" },
+      { "day": 3, "start": 18, "end": 20.5, "_comment": "Mercredi soir" },
+  
+      { "day": 4, "start": 11, "end": 13.5, "_comment": "Jeudi midi" },
+      { "day": 4, "start": 18, "end": 20.5, "_comment": "Jeudi soir" },
+  
+      { "day": 5, "start": 11, "end": 13.5, "_comment": "Vendredi midi" },
+      { "day": 5, "start": 18, "end": 20.5, "_comment": "Vendredi soir" },
+  
+      { "day": 6, "start": 11, "end": 13.5, "_comment": "Samedi midi" },
+      { "day": 6, "start": 18, "end": 20.5, "_comment": "Samedi soir" },
+  
+      { "day": 0, "start": 11, "end": 13.5, "_comment": "Dimanche midi" },
+      { "day": 0, "start": 18, "end": 20.5, "_comment": "Dimanche soir" }
+    ],
+    "city": "Saint-André",
+    "description": "Venez déguster nos plats dans un cadre chaleureux et convivial",
+
+    "titleCharacteristic1": "Produits frais",
+    "DescriptionCharacteristic1": "Nos poissons sont pêchés le\n jour même",
+
+    "titleCharacteristic2": "Service rapide",
+    "DescriptionCharacteristic2": "Nos équipes répondront à\n vos attentes dans les plus\n brefs délais",
+
+    "titleCharacteristic3": "Buffet à volonté",
+    "DescriptionCharacteristic3": "Une multitude de choix rien\n que pour vous",
+
+    "mondayTime": "Fermé",
+    "tuesdayTime": "11:00 - 13:30 / 18:00 - 20:30",
+    "wednesdayTime": "11:00 - 13:30 / 18:00 - 20:30",
+    "thursdayTime": "11:00 - 13:30 / 18:00 - 20:30",
+    "fridayTime": "11:00 - 13:30 / 18:00 - 20:30",
+    "saturdayTime": "11:00 - 13:30 / 18:00 - 20:30",
+    "sundayTime": "11:00 - 13:30 / 18:00 - 20:30", 
+
+    "address": "232 Rue de la Communauté,\n  Saint-André 97440",
+    "phone": "01 45 28 43 08",
+    "email": "delicesdezhou@gmail.com",
+    "socialFB": "https://www.facebook.com/share/GD6rqetmyC5ct3Hj/?mibextid=LQQJ4d"
+  }
+  

@@ -25,6 +25,9 @@ li {
 
 .action span {
     font-size: clamp(1.7rem, 1.70vw, 2rem);
+    color: var(--secondary-color);
+}
+.scrolled ul li a, .scrolled a span{
     color: var(--third-color);
 }
 
@@ -40,7 +43,7 @@ li {
     top: 20px;
     left: 50px;
     object-fit: cover;
-    width: clamp(11rem, 12.5vw, 15rem);
+    width: clamp(9rem, 10.5vw, 11.5rem);
     height: 8rem;
 }
 
@@ -50,14 +53,15 @@ li {
     height: 30px;
 }
 
-.link:hover {
-    border-bottom: 2px solid var(--third-color);
+.link a{
+    color: var(--secondary-color);
+    text-decoration: none;
 }
 
-.link a {
-    text-decoration: none;
-    color: var(--third-color);
+.link:hover {
+    border-bottom: 2px solid var(--secondary-color);
 }
+
 
 .container-navbar {
     display: flex;
@@ -77,8 +81,12 @@ li {
     right: -5px;
     width: 10px;
     height: 10px;
-    background-color: var(--third-color);
+    background-color: var(--secondary-color);
     border-radius: 50%;
+}
+
+.scrolled a .notification-dot{
+    background-color: var(--third-color);
 }
 
 .action img {

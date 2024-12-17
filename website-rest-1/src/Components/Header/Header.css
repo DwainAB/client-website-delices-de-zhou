@@ -10,29 +10,34 @@
     gap: 20px;
 }
 
+
 .containerImgUber:hover{
     background-color: var(--secondary-color);
 }
 
 .containerImgUber{
-    border: 2px solid #fff;
+    border: 2px solid var(--secondary-color);
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
     padding-left: 30px;
     padding-right: 10px;
-    color: #fff;
+    color: var(--secondary-color);
     margin-top: 40px;
     transition: all .3s;
     width: 230px;
+
+    &:hover{
+        color: var(--third-color);
+    }
 }
 
 
 .title-header{
     font-size: clamp(2rem,2.3vw,2.5rem);
     font-weight: bold;
-    color: var(--third-color);
+    color: var(--secondary-color);
 }
 
 .title-color{
@@ -41,7 +46,7 @@
 
 .text-header{
     font-size: 1.25rem;
-    color: var(--third-color);
+    color: var(--fourth-color);
 }
 
 .btn-header{

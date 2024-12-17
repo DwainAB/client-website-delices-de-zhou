@@ -1,30 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
 import { apiService } from "../../API/apiService";
-import config from '../Config/Config.json';
+import textJson from "../TextJson/TextJson.json";
 import './FullCard.css'; // Assurez-vous d'importer le fichier CSS
+import {fetchRestaurantData} from "../utils/api.jsx"
 
 function FullCardComponent() {
     const [foods, setFoods] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isSticky, setIsSticky] = useState(false);
     const [activeCategory, setActiveCategory] = useState('');
-    const nameResto = config.ref_restaurant;
+    const nameResto = textJson.refRestaurant;
     const categoryRefs = useRef({});
     const categoriesRef = useRef(null);
 
     useEffect(() => {
         const fetchFoodsAndCategories = async () => {
             try {
-                const fetchedFoods = await apiService.getFoods(nameResto);
-                const fetchedCategories = await apiService.getAllCategories(nameResto);
-                setFoods(fetchedFoods);
-                setCategories(fetchedCategories);
-            } catch (error) {
+                // Appel de l'Edge Function
+                const { success, products, categories, error } = await fetchRestaurantData(nameResto);
+        
+                if (!success) throw new Error(error);
+        
+                // Met à jour les états avec les données récupérées
+                setCategories(categories);
+                setFoods(products);
+                console.log(products, categories);
+                
+              } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
-            }
-        };
-
-        fetchFoodsAndCategories();
+              }
+            };
+        
+            fetchFoodsAndCategories();
 
         const handleScroll = () => {
             const offset = window.scrollY;
@@ -33,7 +40,7 @@ function FullCardComponent() {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [nameResto]);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -80,7 +87,7 @@ function FullCardComponent() {
             storedFoods.push({ ...food, quantity: 1 });
         }
         localStorage.setItem('cartItems', JSON.stringify(storedFoods));
-        alert(`Ajouté au panier: ${food.title}`);
+        alert(`Ajouté au panier: ${food.name}`);
 
     };
 
@@ -111,20 +118,20 @@ function FullCardComponent() {
                             <h2>{category.name}</h2>
                         </div>
                         <div className="cards-container">
-                            {foods.filter(food => food.category === category.name).map((food) => (
+                            {foods.filter(food => food.category_id === category.id).map((food) => (
                                 <div 
                                     className="card" 
                                     key={food.id} 
                                 >
                                     {food.image ? (
-                                        <img className="card-img" src={`https://sasyumeats.com/${food.image}`} alt={food.title} />
+                                        <img className="card-img" src={`https://sasyumeats.com/${food.image}`} alt={food.name} />
                                     ) : (
                                         <div className="card-img-placeholder"></div>
                                     )}
-                                    <h2 className="card-title">{food.title}</h2>
+                                    <h2 className="card-title">{food.name}</h2>
                                     <div className="card-separator"></div>
                                     <div className="card-info">
-                                        <p className="card-price">{food.price} €</p>
+                                        <p className="card-price">{Number(food.price).toFixed(2)} €</p>
                                         <button className="card-button" type="button" onClick={(e) => {e.stopPropagation(); addToLocalStorage(food);}}>
                                             <div className="plus-icon"></div>
                                         </button>

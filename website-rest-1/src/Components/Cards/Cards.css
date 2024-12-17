@@ -48,7 +48,7 @@
     font-size: clamp(1.7rem,2.1vw,2.5rem);
     line-height: 49px;
     letter-spacing: 0.05em;
-    color: var(--third-color);
+    color: var(--secondary-color);
     justify-content: center;
     display: flex;
 }

@@ -9,7 +9,7 @@
 .hour-title{
     font-size: clamp(1.7rem,2.1vw,2.5rem);
     font-weight: 600;
-    color: var(--third-color);
+    color: var(--fourth-color);
 }
 
 .day, .hour{
@@ -18,7 +18,7 @@
 }
 
 .day{
-    color: var(--third-color);
+    color: var(--fourth-color);
 }
 
 .hour{

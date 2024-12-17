@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiService } from "../../API/apiService";
+import { useForm } from "react-hook-form";
 import "./BasketComponent.css";
-import textJson from "../Config/Config.json";
+import textJson from "../TextJson/TextJson.json";
 
 function BasketComponent() {
     const [totalPrice, setTotalPrice] = useState(0);
     const [cartItems, setCartItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
-    const nameRestaurant = textJson.ref_restaurant;
-    const [clientData, setClientData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        phone: "",
-        streetAddress: "",
-        postalCode: "",
-        city: "",
-        address: "",
-        method: "A emporter",
-        payment: "",
-        ref_restaurant: nameRestaurant
-    });
-
+    const [commentProductId, setCommentProductId] = useState(null); 
+    const [tempComment, setTempComment] = useState(""); 
+    const nameRestaurant = textJson.refRestaurant;
     const navigate = useNavigate();
-
     const openingHours = textJson.openingHours;
+
+    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
+        defaultValues: {
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            street: "",
+            country: "",
+            postal_code: "",
+            city: "",
+            method: "PICKUP",
+            payment: "",
+            comment: "",
+            ref_restaurant: nameRestaurant
+        }
+    });
 
     const checkIfOpen = () => {
         const now = new Date();
@@ -41,7 +45,7 @@ function BasketComponent() {
 
     useEffect(() => {
         checkIfOpen();
-        const interval = setInterval(checkIfOpen, 60000); // Vérifier toutes les minutes
+        const interval = setInterval(checkIfOpen, 60000);
         return () => clearInterval(interval);
     }, []);
 
@@ -54,101 +58,83 @@ function BasketComponent() {
         const newTotalPrice = cartItems.reduce((total, item) => {
             return total + (item.price * item.quantity);
         }, 0);
-    
         setTotalPrice(newTotalPrice);
     }, [cartItems]);
 
-    const handleSubmitForm = async (e) => {
-        e.preventDefault();
-        if (isSubmitDisabled()) {
-            alert('Veuillez remplir tous les champs nécessaires et ajouter des articles au panier.');
-            return;
-        }
-
+    const onSubmit = async (data) => {
         try {
-            const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const addressData = (data.street || data.city || data.postal_code || data.country) ? {
+                street: data.street,
+                city: data.city,
+                postal_code: data.postal_code,
+                country: data.country,
+                category: "ORDERS",
+            } : null;
 
-            // Fusionner streetAddress, postalCode et city en une seule adresse
-            const fullAddress = `${clientData.streetAddress}, ${clientData.postalCode} ${clientData.city}`;
-            const orderData = {
-                ...clientData,
-                state: 'non payé', 
-                address: fullAddress, // Remplacez l'adresse fusionnée
-                cartItems: storedCartItems
+            const orderPayload = {
+                order: {
+                    amount_total: totalPrice,
+                    amount_subtotal: totalPrice,
+                    amount_tax: totalPrice,
+                    status: "PENDING",
+                    comment: data.comment,
+                    payment_status: "unpaid",
+                    requested_time: new Date().toISOString(),
+                    completed_at: null,
+                    restaurant_id: nameRestaurant,
+                    type: data.method,
+                },
+                customer: {
+                    first_name: data.firstname,
+                    last_name: data.lastname,
+                    email: data.email,
+                    phone: data.phone,
+                },
+                order_items: cartItems.map((item) => ({
+                    quantity: item.quantity,
+                    name: item.name,
+                    subtotal: item.price * item.quantity,
+                    unit_price: item.price,
+                    product_id: item.id,
+                    comment: item.comment || "",
+                })),
+                order_status_history: [
+                    {
+                        status: "PENDING",
+                    },
+                ],
             };
 
-            const orderResponseData = await apiService.addClientAndOrder(orderData);
-    
-            if (orderResponseData.message !== 'Commande ajoutée avec succès.') {
-                console.error('Réponse de l\'API commande:', orderResponseData);
+            if (addressData) {
+                orderPayload.address = addressData;
+            }
+
+            const response = await fetch('https://ehjbdvbicusntqbhlqun.supabase.co/functions/v1/add_order_with_items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderPayload),
+            });
+
+            if (!response.ok) {
                 throw new Error('Problème lors de l\'envoi de la commande');
             }
 
-            console.log("Sending email to:", clientData.email); // Journalisation pour vérifier l'adresse e-mail
+            const responseData = await response.json();
+            console.log('Réponse de l\'API :', responseData);
 
-            if (!validateEmail(clientData.email)) {
-                throw new Error('Adresse e-mail invalide.');
-            }
-
-            const emailResponse = await fetch('https://sasyumeats.com/services/sendEmailResto.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', // Changez en JSON
-                },
-                body: JSON.stringify({
-                    email: clientData.email,
-                    firstName: clientData.firstname,
-                    lastName: clientData.lastname
-                })
-            });
-    
-            const emailData = await emailResponse.json();
-            console.log('Réponse de l\'API e-mail:', emailData);
-            console.log('Données reçues par le serveur:', emailData.received);
-
-            if (!emailResponse.ok) {
-                throw new Error('Problème lors de l\'envoi de l\'e-mail de confirmation');
-            }
-    
-            resetFormData();
-    
             alert("Votre commande a bien été envoyée !");
-            localStorage.clear(); // Supprime tout du localStorage
+            localStorage.removeItem('cartItems');
             navigate('/');
         } catch (error) {
-            console.error("Erreur lors de l'envoi du formulaire client : ", error);
-            alert('Une erreur est survenue lors de l\'envoi du formulaire.');
+            console.error("Erreur lors de l'envoi de la commande : ", error);
+            alert('Une erreur est survenue lors de l\'envoi de la commande.');
         }
     };
 
-    const handleFormChange = (e) => {
-        const { name, value } = e.target;
-        setClientData({ ...clientData, [name]: value });
-    };
-
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(String(email).toLowerCase());
-    }
-
-    function resetFormData() {
-        setClientData({
-            firstname: "",
-            lastname: "",
-            email: "",
-            phone: "",
-            streetAddress: "",
-            postalCode: "",
-            city: "",
-            address: "",
-            method: "A emporter",
-            payment: "",
-            ref_restaurant: nameRestaurant
-        });
-    }
-
     const updateQuantity = (id, delta) => {
-        let updatedCartItems = cartItems.map(item => {
+        const updatedCartItems = cartItems.map(item => {
             if (item.id === id) {
                 return { ...item, quantity: item.quantity + delta };
             }
@@ -159,16 +145,48 @@ function BasketComponent() {
         localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     };
 
-    const isSubmitDisabled = () => {
-        return cartItems.length === 0 || !clientData.firstname || !clientData.lastname || !clientData.email || !clientData.phone || !clientData.streetAddress || !clientData.postalCode || !clientData.city || !clientData.method || !clientData.payment;
+    const handleCommentClick = (productId) => {
+        const existingComment = cartItems.find(item => item.id === productId)?.comment || "";
+        setTempComment(existingComment);
+        setCommentProductId(productId);
+        document.body.style.overflow = "hidden";
     };
 
-    const handleClick = (e) => {
-        if (!isOpen) {
-            e.preventDefault();
-            alert('Le restaurant est actuellement fermé.');
-        }
+    const handleCommentSubmit = () => {
+        const updatedCartItems = cartItems.map(item => {
+            if (item.id === commentProductId) {
+                return { ...item, comment: tempComment || "" };
+            }
+            return item;
+        });
+
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+        setCommentProductId(null);
+        setTempComment("");
     };
+
+    const handleCommentChange = (e) => {
+        setTempComment(e.target.value);
+    };
+
+    const closeCommentInput = () => {
+        setCommentProductId(null);
+        setTempComment("");
+        document.body.style.overflow = "";
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (commentProductId && !event.target.closest(".comment-input")) {
+                closeCommentInput();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [commentProductId]);
+
 
     return (
         <div className="containerGlobalBasket">
@@ -176,12 +194,32 @@ function BasketComponent() {
                 <h2>Panier</h2>
                 {cartItems.length > 0 ? (
                     cartItems.map((item) => (
-                        <div key={item.id} className="basket-item">
-                            <p><span className="textGold">{item.quantity} x</span> - {item.title}</p>
-                            <div className="container-btn-item">
-                                <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                                <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                        <div key={item.id} className="containerBasketItem">
+                            <div  className="basket-item">
+                                <p className="name-item-basket"><span className="textGold">{item.quantity} x</span> - {item.name}</p>
+                                <div className="container-btn-item">
+                                    <span 
+                                        className="material-symbols-outlined" 
+                                        onClick={() => handleCommentClick(item.id)}
+                                    >chat</span>
+                                    <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                                    <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                                </div>
+                                {commentProductId === item.id && (
+                                    <div className="comment-input">
+                                        <h3>Ajouter un commentaire à votre produit</h3>
+                                        <textarea 
+                                            placeholder="Ajouter un commentaire"
+                                            value={tempComment}
+                                            onChange={handleCommentChange}
+                                            rows={3}
+                                            resize="vertical"
+                                        />
+                                        <button className="button-comment" onClick={handleCommentSubmit}>Valider</button>
+                                    </div>
+                                )}
                             </div>
+                        {item.comment && <p>*{item.comment}</p>}
                         </div>
                     ))
                 ) : (
@@ -190,31 +228,48 @@ function BasketComponent() {
                         <p>Votre panier est actuellement vide</p>
                     </div>
                 )}
-                {cartItems.length > 0 ? (<p className="total-price"><span className="textGold">Prix total :</span> {totalPrice.toFixed(2)} €</p> ) : ('')}                   
+                {cartItems.length > 0 && (
+                    <p className="total-price"><span className="textGold">Prix total :</span> {totalPrice.toFixed(2)} €</p>
+                )}
             </div>
 
             <div className="containerFormBasket">
-                <form onSubmit={handleSubmitForm}>
-                    <input type="text" name="firstname" placeholder="Prénom" value={clientData.firstname} onChange={handleFormChange} />
-                    <input type="text" name="lastname" placeholder="Nom" value={clientData.lastname} onChange={handleFormChange} />
-                    <input type="email" placeholder="email" name="email" value={clientData.email} onChange={handleFormChange} />
-                    <input type="tel" placeholder="tel" name="phone" value={clientData.phone} onChange={handleFormChange} />
-                    <div className="containerAddress">
-                        <input type="text" placeholder="Code Postal" name="postalCode" value={clientData.postalCode} onChange={handleFormChange} />
-                        <input type="text" placeholder="Ville" name="city" value={clientData.city} onChange={handleFormChange} />
-                    </div>
-                    <input type="text" placeholder="Adresse" name="streetAddress" value={clientData.streetAddress} onChange={handleFormChange} />
-                    <select name="method" value={clientData.method} onChange={handleFormChange}>
-                        <option value="A emporter">Click and Collect</option>
-                    </select>
-                    <select name="payment" value={clientData.payment} onChange={handleFormChange}>
-                        <option value="">Choisissez un moyen de payement</option>
-                        <option value="Carte bancaire">Carte bancaire</option>
-                        <option value="Espèces">Espèces</option>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input type="text" placeholder="Prénom" {...register("firstname", { required: "Prénom requis" })} />
+                    <p className="error-message">{errors.firstname?.message}</p>
+
+                    <input type="text" placeholder="Nom" {...register("lastname", { required: "Nom requis" })} />
+                    <p className="error-message">{errors.lastname?.message}</p>
+
+                    <input type="email" placeholder="Email" {...register("email", { required: "Email requis" })} />
+                    <p className="error-message">{errors.email?.message}</p>
+
+                    <input type="tel" placeholder="Téléphone" {...register("phone", { required: "Téléphone requis" })} />
+                    <p className="error-message">{errors.phone?.message}</p>
+
+                    {watch("method") === "DELIVERY" && (
+                        <>
+                            <input type="text" placeholder="Code postal" {...register("postal_code")} />
+                            <input type="text" placeholder="Pays" {...register("country")} />
+                            <input type="text" placeholder="Ville" {...register("city")} />
+                            <input type="text" placeholder="Adresse" {...register("street")} />
+                        </>
+                    )}
+
+                    <select {...register("method")}>
+                        <option value="PICKUP">À emporter</option>
+                        <option value="DELIVERY">Livraison</option>
                     </select>
 
-                    <input className="submitform" type="submit" value="Commander" onClick={handleClick} disabled={isSubmitDisabled()} />
-                    {!isOpen && <p className="textRestaurantClose">Le restaurant est actuellement fermé. Les heures d'ouverture sont visibles depuis la page d'accueil.</p>}
+                    <select className="select-payment" {...register("payment", { required: "Sélectionnez un mode de paiement" })}>
+                        <option value="">Mode de paiement</option>
+                        <option value="CASH">Espèces</option>
+                        <option value="CB">Carte bancaire</option>
+                    </select>
+                    <p className="error-message">{errors.payment?.message}</p>
+
+                    <textarea placeholder="Commentaire" {...register("comment")}></textarea>
+                    <input style={{marginTop:"20px"}}  type="submit" value={"Commander"}/>
                 </form>
             </div>
         </div>
