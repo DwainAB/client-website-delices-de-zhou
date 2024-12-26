@@ -39,7 +39,7 @@
     text-decoration: none;
     color: var(--fourth-color);
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 18px;
     transition: color 0.3s, border-bottom 0.3s;
 }
 
@@ -108,7 +108,6 @@
 }
 
 .card-title {
-    font-size: 1.2em;
     text-align: center;
     margin: 10px 0;
 }
@@ -130,7 +129,7 @@
 }
 
 .card-price {
-    font-size: 1.1em;
+    font-size: 15px;
     font-weight: bold;
 }
 

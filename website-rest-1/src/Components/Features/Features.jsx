@@ -18,7 +18,7 @@ function Features(){
 
     return(
         <div className="container-features">
-             <h1 className="features-title">Nos caractéristiques</h1>
+             <h1 className="features-title">Notre savoir-faire</h1>
              <div className="features-cards-global">
 
                 <div className="features-card">

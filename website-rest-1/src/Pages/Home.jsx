@@ -6,6 +6,8 @@ import Features from "../Components/Features/Features"
 import Review from "../Components/review/review";
 
 function Home(){
+
+    localStorage.removeItem('userEmail')
     return(
         <div className="Home">
             <Header/>

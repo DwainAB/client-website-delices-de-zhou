@@ -24,7 +24,7 @@ function FullCardComponent() {
                 // Met à jour les états avec les données récupérées
                 setCategories(categories);
                 setFoods(products);
-                console.log(products, categories);
+                //console.log(products, categories);
                 
               } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);

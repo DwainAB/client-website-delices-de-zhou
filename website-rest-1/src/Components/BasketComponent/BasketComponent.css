@@ -28,8 +28,8 @@ input:-webkit-autofill:active {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
+    background-color: var(--primary-color);
+    border: 2px solid var(--fourth-color);
     min-width: 250px;
     max-width: 455px;
     width: calc(100% - 40px);
@@ -42,18 +42,22 @@ input:-webkit-autofill:active {
 }
 
 .button-comment{
-    width: 100%;
+    display: block;
+    margin: 0 auto;
+    width: 200px;
     height: 35px;
     margin-top: 10px;
-    background-color: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
-    color: #fff;
+    background-color: var(--third-color);
+    border: 1px solid var(--secondary-color);
+    color: var(--fourth-color);
     box-sizing: border-box;
     transition: background-color .3s;
+    border-radius: 10px;
 
     &:hover{
         cursor: pointer;
-        background-color: var(--primary-color);  
+        background-color: var(--secondary-color);  
+        color: var(--primary-color);
     }
 }
 
@@ -74,17 +78,18 @@ input:-webkit-autofill:active {
 
 .comment-input h3{
 
-    color: #fff;
+    color: var(--fourth-color);
     font-family: var(--secondary-font);
     text-align: center;
 }
 
 .comment-input textarea{
-    background-color: var(--secondary-color);
+    background-color: var(--third-color);
     padding-top: 10px;
     height: 100px;
     resize: vertical;
     margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .container-btn-item span{
@@ -227,10 +232,15 @@ input:-webkit-autofill:active {
     box-sizing: border-box;
     transition: all .3s;
     padding-left: 20px;
+    border-radius: 10px;
 }
 
-.select-payment{
-    margin-top: 30px;
+.container-input-delivery{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .containerFormBasket textarea{

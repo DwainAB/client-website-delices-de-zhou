@@ -21,17 +21,21 @@
       { "day": 0, "start": 11, "end": 13.5, "_comment": "Dimanche midi" },
       { "day": 0, "start": 18, "end": 20.5, "_comment": "Dimanche soir" }
     ],
+    "deliveryOptions": {
+      "delivery": false,
+      "pickup": true
+    },
     "city": "Saint-André",
     "description": "Venez déguster nos plats dans un cadre chaleureux et convivial",
 
-    "titleCharacteristic1": "Produits frais",
-    "DescriptionCharacteristic1": "Nos poissons sont pêchés le\n jour même",
+    "titleCharacteristic1": "Des choix à l'infini",
+    "DescriptionCharacteristic1": "Du nem croustillant au poulet thaï parfumé, notre carte généreuse offre un festival de saveurs authentiques pour tous les goûts.",
 
-    "titleCharacteristic2": "Service rapide",
-    "DescriptionCharacteristic2": "Nos équipes répondront à\n vos attentes dans les plus\n brefs délais",
+    "titleCharacteristic2": "L'excellence express",
+    "DescriptionCharacteristic2": "La qualité n'attend pas.\n Chez Délices de Zhou, votre temps est aussi précieux que nos recettes. Une équipe efficace, une cuisine maîtrisée, pour que vos pauses déjeuner riment avec plaisir immédiat.",
 
-    "titleCharacteristic3": "Buffet à volonté",
-    "DescriptionCharacteristic3": "Une multitude de choix rien\n que pour vous",
+    "titleCharacteristic3": "L'art du raffinement",
+    "DescriptionCharacteristic3": "Dans chaque plat, l'élégance de la cuisine asiatique s'exprime. Des présentations soignées, des associations harmonieuses, des couleurs qui éveillent les sens : notre cuisine est un ballet de saveurs orchestré avec passion.",
 
     "mondayTime": "Fermé",
     "tuesdayTime": "11:00 - 13:30 / 18:00 - 20:30",
@@ -42,7 +46,7 @@
     "sundayTime": "11:00 - 13:30 / 18:00 - 20:30", 
 
     "address": "232 Rue de la Communauté,\n  Saint-André 97440",
-    "phone": "01 45 28 43 08",
+    "phone": false,
     "email": "delicesdezhou@gmail.com",
     "socialFB": "https://www.facebook.com/share/GD6rqetmyC5ct3Hj/?mibextid=LQQJ4d"
   }

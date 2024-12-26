@@ -16,14 +16,14 @@ function Review() {
         .then(response => response.json())
         .then(data => {
             setReviews(data.result.reviews)
-            console.log("Données récupérées de l'API Google Places :", data);
+            //console.log("Données récupérées de l'API Google Places :", data);
             // ... (traitement des données)
         })
         .catch(error => console.error('Erreur lors de la récupération des avis:', error));
     
     }, []); // Le tableau vide [] assure que l'effet s'exécute une seule fois après le premier rendu
 
-    console.log(reviews);
+    //console.log(reviews);
     return (
         <div>
             {reviews.length > 0 ? (

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.css"
-import ImgHeader from "../../assets/imgheader.png"
+import ImgHeader from "../../assets/imgHeader.png"
 import TextJson from "../TextJson/TextJson.json"
 import logoUber from "../../assets/uber-eats.svg"
 

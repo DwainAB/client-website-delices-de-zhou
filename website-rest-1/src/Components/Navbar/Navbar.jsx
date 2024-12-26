@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import Logo from '../../assets/logo.png';
 import { useNavigate, Link } from 'react-router-dom';
+import TextJson from "../TextJson/TextJson.json"
 
 function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -49,7 +50,7 @@ function Navbar() {
     }, []);
 
     const handleNavigate = () => {
-        const restaurantAddress = "1 Rue Gustave Eiffel, 93110 Rosny-sous-Bois"; // Remplacez par l'adresse de votre restaurant
+        const restaurantAddress = TextJson.address; // Remplacez par l'adresse de votre restaurant
         window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurantAddress)}`, '_blank');
     };
 

@@ -8,6 +8,7 @@ import Footer from "./Components/Footer/Footer";
 //import Maintenance from "./Pages/maintenance";
 import FullCard from "./Pages/FullCard";
 import Basket from "./Pages/Basket";
+import OrderSuccess from "./Pages/OrderSuccess";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />        
             <Route path="/menu" element={<FullCard />} />        
             <Route path="/panier" element={<Basket />} />        
+            <Route path="/succes" element={<OrderSuccess />} />        
           </Routes>
         </div>
         <Footer/>

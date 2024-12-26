@@ -17,10 +17,11 @@
 
 .features-cards-global{
     width: 70vw;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     margin: 0 auto;
-    justify-content: space-between;
     margin-top: 56px;
+    gap: 20px;
 }
 
 .features-card{
@@ -69,9 +70,10 @@
 
 
     .features-cards-global{
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
         gap: 20px;
-        width: clamp(15rem,29.16vw,35rem);
+        width: 50%;
     }
 }
 
@@ -79,5 +81,12 @@
 
     .container-features{
         margin-bottom: 0;
+    }
+}
+
+@media screen and (max-width:580px) {
+
+    .features-cards-global{
+        width: 100%;
     }
 }

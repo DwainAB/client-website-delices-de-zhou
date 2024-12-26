@@ -6,6 +6,7 @@ import textJson from "../TextJson/TextJson.json";
 
 function BasketComponent() {
     const [totalPrice, setTotalPrice] = useState(0);
+    const [deliveryModes, setDeliveryModes] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [commentProductId, setCommentProductId] = useState(null); 
@@ -31,6 +32,28 @@ function BasketComponent() {
         }
     });
 
+    useEffect(() => {
+        //console.log("textJson:", textJson);
+        const options = [];
+        if (textJson?.deliveryOptions?.delivery) {
+            options.push({ value: "DELIVERY", label: "Livraison" });
+        }
+        if (textJson?.deliveryOptions?.pickup) {
+            options.push({ value: "PICKUP", label: "À emporter" });
+        }
+        setDeliveryModes(options);
+    }, [textJson]);
+
+    useEffect(() => {
+        if (deliveryModes.length === 1) {
+            setValue("method", deliveryModes[0].value); 
+        } else {
+            setValue("method", ""); 
+        }
+    }, [deliveryModes, setValue]);
+    
+    
+    
     const checkIfOpen = () => {
         const now = new Date();
         const currentDay = now.getDay();
@@ -120,13 +143,13 @@ function BasketComponent() {
             if (!response.ok) {
                 throw new Error('Problème lors de l\'envoi de la commande');
             }
-
+            localStorage.setItem('userEmail', data.email);
             const responseData = await response.json();
-            console.log('Réponse de l\'API :', responseData);
+            //console.log('Réponse de l\'API :', responseData);
 
             alert("Votre commande a bien été envoyée !");
             localStorage.removeItem('cartItems');
-            navigate('/');
+            navigate('/succes');
         } catch (error) {
             console.error("Erreur lors de l'envoi de la commande : ", error);
             alert('Une erreur est survenue lors de l\'envoi de la commande.');
@@ -234,7 +257,13 @@ function BasketComponent() {
             </div>
 
             <div className="containerFormBasket">
+
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    {deliveryModes.length === 1 && (
+                        <p className="delivery-mode-info">
+                            Mode de livraison : <strong>{deliveryModes[0]?.label}</strong>
+                        </p>
+                    )}
                     <input type="text" placeholder="Prénom" {...register("firstname", { required: "Prénom requis" })} />
                     <p className="error-message">{errors.firstname?.message}</p>
 
@@ -248,18 +277,31 @@ function BasketComponent() {
                     <p className="error-message">{errors.phone?.message}</p>
 
                     {watch("method") === "DELIVERY" && (
-                        <>
+                        <div className="container-input-delivery">
                             <input type="text" placeholder="Code postal" {...register("postal_code")} />
                             <input type="text" placeholder="Pays" {...register("country")} />
                             <input type="text" placeholder="Ville" {...register("city")} />
                             <input type="text" placeholder="Adresse" {...register("street")} />
-                        </>
+                        </div>
                     )}
 
-                    <select {...register("method")}>
-                        <option value="PICKUP">À emporter</option>
-                        <option value="DELIVERY">Livraison</option>
-                    </select>
+                    {deliveryModes.length > 1 ? (
+                        <select {...register("method", { required: "Sélectionnez un mode de livraison" })}>
+                            <option value="">Mode de livraison</option>
+                            {deliveryModes.map(({ value, label }) => (
+                                <option key={value} value={value}>
+                                    {label}
+                                </option>
+                            ))}
+                        </select>
+                    ) : (
+                        <input type="hidden" {...register("method")} value={deliveryModes[0]?.value} />
+
+                    )}
+                    <p className="error-message">{errors.method?.message}</p>
+
+
+
 
                     <select className="select-payment" {...register("payment", { required: "Sélectionnez un mode de paiement" })}>
                         <option value="">Mode de paiement</option>

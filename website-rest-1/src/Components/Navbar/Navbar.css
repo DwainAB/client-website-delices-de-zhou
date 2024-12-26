@@ -20,7 +20,7 @@ li {
     top: 0;
     left: 0;
     z-index: 1000;
-    border-bottom: 2px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .action span {
@@ -43,12 +43,12 @@ li {
     top: 20px;
     left: 50px;
     object-fit: cover;
-    width: clamp(9rem, 10.5vw, 11.5rem);
+    width: clamp(9rem, 10.5vw, 8.5rem);
     height: 8rem;
 }
 
 .link {
-    font-size: clamp(1.1rem, 1.30vw, 1.25rem);
+    font-size: 16px;
     font-weight: 600;
     height: 30px;
 }

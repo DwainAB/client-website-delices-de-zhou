@@ -13,7 +13,7 @@
 }
 
 .day, .hour{
-    font-size: clamp(1rem,1.04vw,1.25rem);
+    font-size: clamp(16px,2.1vw,17px);
     font-weight: 600;
 }
 

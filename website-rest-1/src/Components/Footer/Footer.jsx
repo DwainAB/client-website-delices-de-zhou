@@ -5,7 +5,7 @@ import Phone from "../../assets/phone.svg";
 import Email from "../../assets/email.svg";
 import LocationImg from "../../assets/location.svg";
 import textJson from "../TextJson/TextJson.json";
-import { Camera } from "lucide-react"; // Icône de Lucide
+import {Link} from "react-router-dom"
 
 function Footer(){
 
@@ -45,7 +45,7 @@ function Footer(){
                 </li>
             </ul>
 
-            <p className="credit">Réalisé par Yumco</p>
+            <p className="credit">Réalisé par <Link target="blanck" to="https://yumco.fr/">YumCo</Link></p>
         </div>
     );
 }
